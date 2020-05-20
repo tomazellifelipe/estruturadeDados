@@ -1,21 +1,26 @@
 public class arvoreAVL {
     private Node raiz;
 
-    public arvoreAVL() {
+    public arvoreAVL()
+    {
         this.raiz = null;
     }
-    private boolean vazia() {
+    private boolean vazia()
+    {
         return this.raiz == null;
     }
 
-    public void insereElemento(int info) {
+    public void insereElemento(int info)
+    {
         Node folha = new Node(info);
         if (vazia()) this.raiz = folha;
 
-        else {
+        else
+            {
             arvoreAVL arvore = new arvoreAVL();
             if (info < this.raiz.getInfo()) {
-                if (this.raiz.getEsquerda() != null) {
+                if (this.raiz.getEsquerda() != null)
+                {
                     arvore.raiz = this.raiz.getEsquerda();
                     arvore.insereElemento(info);
                     arvore.verificaBalanceamento();
@@ -24,8 +29,10 @@ public class arvoreAVL {
                 else this.raiz.setEsquerda(folha);
             }
 
-            else if (info > this.raiz.getInfo()) {
-                if (this.raiz.getDireita() != null) {
+            else if (info > this.raiz.getInfo())
+            {
+                if (this.raiz.getDireita() != null)
+                {
                     arvore.raiz = this.raiz.getDireita();
                     arvore.insereElemento(info);
                     arvore.verificaBalanceamento();
@@ -37,54 +44,75 @@ public class arvoreAVL {
         this.verificaBalanceamento();
     }
 
-    public Node removeMaior() {
+    public Node removeMaior()
+    {
         arvoreAVL arvore = new arvoreAVL();
+        Node aux;
         if (vazia()) System.out.println("Arvore vazia");
-        else if (this.raiz.getDireita() == null)
-        {
-            Node removido = this.raiz;
-            if (this.raiz.getEsquerda() == null) this.raiz = null;
-            else this.raiz = this.raiz.getEsquerda();
-            return removido;
-        }
-
         else {
-            arvore.raiz = this.raiz.getDireita();
-            arvore.removeMaior();
-            this.raiz.setDireita(arvore.raiz);
+            if (this.raiz.getDireita() == null)
+            {
+                aux = this.raiz;
+                if (this.raiz.getEsquerda() == null) this.raiz = null;
+                else this.raiz = this.raiz.getEsquerda();
+            }
+
+            else
+            {
+                arvore.raiz = this.raiz.getDireita();
+                aux = arvore.removeMaior();
+                this.raiz.setDireita(arvore.raiz);
+            }
+            return aux;
         }
         return null;
     }
 
-    public Node removeMenor() {
+    public Node removeMenor()
+    {
         arvoreAVL arvore = new arvoreAVL();
+        Node aux;
         if (vazia()) System.out.println("Arvore vazia");
-        else if (this.raiz.getEsquerda() == null)
-        {
-            Node removido = this.raiz;
-            if (this.raiz.getDireita() == null) this.raiz = null;
-            else this.raiz = this.raiz.getDireita();
-            return removido;
-        }
-
         else {
-            arvore.raiz = this.raiz.getEsquerda();
-            arvore.removeMenor();
-            this.raiz.setEsquerda(arvore.raiz);
+            if (this.raiz.getEsquerda() == null)
+            {
+                aux = this.raiz;
+                if (this.raiz.getDireita() == null) this.raiz = null;
+                else this.raiz = this.raiz.getDireita();
+            }
+
+            else
+            {
+                arvore.raiz = this.raiz.getEsquerda();
+                aux = arvore.removeMenor();
+                this.raiz.setEsquerda(arvore.raiz);
+            }
+            return aux;
         }
         return null;
     }
 
-    public Node remove(int info) {
+    public Node remove(int info)
+    {
         arvoreAVL arvore = new arvoreAVL();
-        if (vazia()) System.out.println("Arvore vazia");
+        Node aux = null;
+        if (vazia())
+        {
+            System.out.println("Arvore vazia");
+            return null;
+        }
+        else if (buscar(info) == null)
+        {
+            return null;
+        }
         else if (info == this.raiz.getInfo())
         {
-            Node removido = this.raiz;
+            aux = this.raiz;
             if (this.raiz.getDireita() == null && this.raiz.getEsquerda() == null) this.raiz = null;
             else if (this.raiz.getEsquerda() == null) this.raiz = this.raiz.getDireita();
             else if (this.raiz.getDireita() == null) this.raiz = this.raiz.getEsquerda();
-            else {
+            else
+            {
                 arvoreAVL arvore2 = new arvoreAVL();
                 arvore2.raiz = this.raiz.getEsquerda();
                 while (arvore2.raiz.getDireita() != null)
@@ -97,22 +125,22 @@ public class arvoreAVL {
                 this.raiz.setEsquerda(arvore2.raiz);
 
             }
-            return removido;
+            return aux;
         }
         else if (info < this.raiz.getInfo())
         {
             arvore.raiz = this.raiz.getEsquerda();
-            arvore.remove(info);
+            aux = arvore.remove(info);
             this.raiz.setEsquerda(arvore.raiz);
         }
         else if (info > this.raiz.getInfo())
         {
             arvore.raiz = this.raiz.getDireita();
-            arvore.remove(info);
+            aux = arvore.remove(info);
             this.raiz.setDireita(arvore.raiz);
         }
         this.verificaBalanceamento();
-        return null;
+        return aux;
     }
 
     public Node buscar(int elemento)
@@ -123,7 +151,12 @@ public class arvoreAVL {
             if (atual.getInfo() > elemento) atual = atual.getEsquerda();
             else atual = atual.getDireita();
         }
-        return null;
+        if (atual == null)
+        {
+            System.out.println("Elemento " + elemento + " não encontrado");
+            return null;
+        }
+        return atual;
     }
 
     public int altura(Node no)

@@ -7,6 +7,7 @@ public class mainArvoreAVL {
         avl.insereElemento(12);
         avl.insereElemento(11);
         avl.remove(11);
+        avl.buscar(12);
         avl.preOrdem(avl.getRaiz());
     }
 }

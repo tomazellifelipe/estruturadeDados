@@ -3,33 +3,40 @@ public class Node {
     private Node esquerda;
     private Node direita;
 
-    public Node(int info) {
+    public Node(int info)
+    {
         this.info = info;
         this.esquerda = null;
         this.direita = null;
     }
 
-    public void setEsquerda(Node esquerda) {
+    public void setEsquerda(Node esquerda)
+    {
         this.esquerda = esquerda;
     }
 
-    public void setDireita(Node direita) {
+    public void setDireita(Node direita)
+    {
         this.direita = direita;
     }
 
-    public int getInfo() {
+    public int getInfo()
+    {
         return info;
     }
 
-    public Node getEsquerda() {
+    public Node getEsquerda()
+    {
         return esquerda;
     }
 
-    public Node getDireita() {
+    public Node getDireita()
+    {
         return direita;
     }
 
-    public void setInfo(int info) {
+    public void setInfo(int info)
+    {
         this.info = info;
     }
 }
